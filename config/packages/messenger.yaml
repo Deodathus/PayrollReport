@@ -1,0 +1,13 @@
+framework:
+    messenger:
+        transports:
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: employees
+                    queues:
+                        employees: ~
+            sync: 'sync://'
+
+        routing:

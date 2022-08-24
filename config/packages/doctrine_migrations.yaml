@@ -1,0 +1,4 @@
+doctrine_migrations:
+    migrations_paths:
+
+    enable_profiler: '%kernel.debug%'
