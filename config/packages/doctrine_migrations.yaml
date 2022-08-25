@@ -1,4 +1,4 @@
 doctrine_migrations:
     migrations_paths:
-
+        'PayrollReport\Modules\Department\Infrastructure\Persistence': '%kernel.project_dir%/src/Modules/Department/Infrastructure/Persistence'
     enable_profiler: '%kernel.debug%'

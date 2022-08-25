@@ -3,7 +3,7 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\:
+    PayrollReport\:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
