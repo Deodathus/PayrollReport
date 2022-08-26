@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace PayrollReport\Shared\Domain;
 
-use JetBrains\PhpStorm\Pure;
 use Ramsey\Uuid\Uuid;
 
 abstract class Id
@@ -29,7 +28,6 @@ abstract class Id
         return $this->id;
     }
 
-    #[Pure]
     public function __toString(): string
     {
         return $this->toString();

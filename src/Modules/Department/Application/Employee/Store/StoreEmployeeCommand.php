@@ -13,6 +13,6 @@ final class StoreEmployeeCommand implements Command
         public readonly string $firstName,
         public readonly string $lastName,
         public readonly DateTimeInterface $hiredAt,
-        public readonly int $salary
+        public readonly float $salary
     ) {}
 }

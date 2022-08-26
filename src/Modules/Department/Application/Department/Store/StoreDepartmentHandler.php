@@ -20,7 +20,7 @@ final class StoreDepartmentHandler implements CommandHandler
             $storeDepartmentCommand->name,
             new DepartmentSalaryBonus(
                 DepartmentSalaryBonusType::from($storeDepartmentCommand->salaryBonusType),
-                new Salary($storeDepartmentCommand->salaryBonus)
+                new Salary((int) ($storeDepartmentCommand->salaryBonus * 100))
             )
         );
 

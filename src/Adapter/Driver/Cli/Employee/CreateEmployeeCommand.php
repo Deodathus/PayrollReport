@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace PayrollReport\Adapter\Driver\Cli\Employee;
 
 use DateTimeImmutable;
+use Exception;
 use PayrollReport\Modules\Department\Application\Employee\Store\StoreEmployeeCommand;
 use PayrollReport\Shared\Application\Command\CommandBus;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('employee:create')]
+#[AsCommand('employee:create', 'Creates employee with given data')]
 final class CreateEmployeeCommand extends Command
 {
     private const DEPARTMENT_ID_ARGUMENT = 'departmentId';
@@ -55,7 +56,7 @@ final class CreateEmployeeCommand extends Command
         $this->addArgument(
             self::EMPLOYEE_SALARY_ARGUMENT,
             InputArgument::REQUIRED,
-            'Employee\'s salary. Format XXX[.]XX: 100 -> 10000, 1000 -> 100000, 1500.50 -> 150050'
+            'Employee\'s salary'
         );
 
         $this->addArgument(
@@ -66,6 +67,9 @@ final class CreateEmployeeCommand extends Command
         );
     }
 
+    /**
+     * @throws Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->commandBus->dispatch(
@@ -74,7 +78,7 @@ final class CreateEmployeeCommand extends Command
                 $input->getArgument(self::EMPLOYEE_FIRST_NAME_ARGUMENT),
                 $input->getArgument(self::EMPLOYEE_LAST_NAME_ARGUMENT),
                 new DateTimeImmutable($input->getArgument(self::EMPLOYEE_HIRED_AT_ARGUMENT)),
-                (int) $input->getArgument(self::EMPLOYEE_SALARY_ARGUMENT)
+                (float) $input->getArgument(self::EMPLOYEE_SALARY_ARGUMENT)
             )
         );
 

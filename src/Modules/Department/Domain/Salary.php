@@ -15,15 +15,8 @@ final class Salary
         }
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function getNormalized(): float
     {
-        if ($this->amount < 100) {
-            throw InvalidArgumentException::withArgument((string) $this->amount, 'equal or greater than 100');
-        }
-
         return $this->amount / 100;
     }
 }

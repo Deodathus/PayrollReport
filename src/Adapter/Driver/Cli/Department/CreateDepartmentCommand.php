@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('department:create')]
+#[AsCommand('department:create', 'Creates department with given data')]
 final class CreateDepartmentCommand extends Command
 {
     private const DEPARTMENT_NAME_ARGUMENT = 'name';
@@ -62,7 +62,7 @@ final class CreateDepartmentCommand extends Command
     {
         $this->commandBus->dispatch(new StoreDepartmentCommand(
             $input->getArgument(self::DEPARTMENT_NAME_ARGUMENT),
-            (int) $input->getArgument(self::DEPARTMENT_SALARY_BONUS_ARGUMENT),
+            (float) $input->getArgument(self::DEPARTMENT_SALARY_BONUS_ARGUMENT),
             $input->getArgument(self::DEPARTMENT_SALARY_BONUS_TYPE_ARGUMENT)
         ));
 

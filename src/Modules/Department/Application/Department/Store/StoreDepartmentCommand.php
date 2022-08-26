@@ -9,7 +9,7 @@ final class StoreDepartmentCommand implements Command
 {
     public function __construct(
         public readonly string $name,
-        public readonly int $salaryBonus,
+        public readonly float $salaryBonus,
         public readonly string $salaryBonusType
     ) {}
 }

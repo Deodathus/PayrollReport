@@ -32,7 +32,7 @@ final class StoreEmployeeHandler implements CommandHandler
             DepartmentId::fromString($storeEmployeeCommand->departmentId),
             new EmployeeName($storeEmployeeCommand->firstName, $storeEmployeeCommand->lastName),
             new EmployeeExperience($storeEmployeeCommand->hiredAt),
-            new Salary($storeEmployeeCommand->salary)
+            new Salary((int) ($storeEmployeeCommand->salary * 100))
         );
 
         $this->employeeRepository->store($employee);
