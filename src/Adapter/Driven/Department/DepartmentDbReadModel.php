@@ -12,6 +12,8 @@ use PayrollReport\Shared\Application\NotFoundException;
 
 final class DepartmentDbReadModel implements DepartmentReadModel
 {
+    private const DB_TABLE_NAME = 'departments';
+
     private readonly Connection $connection;
 
     public function __construct(Connection $connection)
@@ -33,7 +35,7 @@ final class DepartmentDbReadModel implements DepartmentReadModel
                 'salary_bonus_type',
                 'salary_bonus'
             ])
-            ->from('departments')
+            ->from(self::DB_TABLE_NAME)
             ->where('id = :id')
             ->setParameter('id', $id)
             ->fetchAssociative();
@@ -63,7 +65,7 @@ final class DepartmentDbReadModel implements DepartmentReadModel
                 'salary_bonus_type',
                 'salary_bonus'
             ])
-            ->from('departments')
+            ->from(self::DB_TABLE_NAME)
             ->fetchAllAssociative();
 
         return new Departments(

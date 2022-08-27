@@ -16,21 +16,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand('department:get-all', 'Returns all departments')]
 final class GetAllDepartmentsCommand extends Command
 {
-    public function __construct(
-        private readonly QueryBus $queryBus,
-        string $name = null
-    ) {
-        parent::__construct($name);
+    public function __construct(private readonly QueryBus $queryBus)
+    {
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var Departments $department */
+        /** @var Departments $departments */
         $departments = $this->queryBus->handle(
             new GetAllDepartmentsQuery()
         );
 
-        $this->displayResult($departments, $output);
+        if ($departments->count() > 0) {
+            $this->displayResult($departments, $output);
+        } else {
+            $output->writeln('<info>No departments found</info>');
+        }
 
         return Command::SUCCESS;
     }

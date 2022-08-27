@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace PayrollReport\Modules\Department\Domain\Employee;
 
 use PayrollReport\Modules\Department\Domain\Department\DepartmentId;
-use PayrollReport\Modules\Department\Domain\Salary;
+use PayrollReport\Modules\Department\Domain\Employee\Policy\SalaryWithDepartmentBonusPolicy;
 
 final class Employee
 {
@@ -29,6 +29,12 @@ final class Employee
             $employeeExperience,
             $salary
         );
+    }
+
+    public function getSalaryWithDepartmentBonus(
+        SalaryWithDepartmentBonusPolicy $salaryWithDepartmentBonusPolicy
+    ): SalaryWithDepartmentBonus {
+        return $salaryWithDepartmentBonusPolicy->apply($this);
     }
 
     public function getSnapshot(): EmployeeSnapshot

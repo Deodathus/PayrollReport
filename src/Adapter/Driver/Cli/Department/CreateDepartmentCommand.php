@@ -21,11 +21,9 @@ final class CreateDepartmentCommand extends Command
 
     private const DEPARTMENT_SALARY_BONUS_TYPE_ARGUMENT = 'salaryBonusType';
 
-    public function __construct(
-        private readonly CommandBus $commandBus,
-        string $name = null
-    ) {
-        parent::__construct($name);
+    public function __construct(private readonly CommandBus $commandBus)
+    {
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -43,7 +41,7 @@ final class CreateDepartmentCommand extends Command
         );
 
         $supportedOptions = array_map(
-            static fn (DepartmentSalaryBonusType $enum) => $enum->value,
+            static fn (DepartmentSalaryBonusType $enum): string => $enum->value,
             DepartmentSalaryBonusType::cases()
         );
         $this->addArgument(
@@ -60,11 +58,13 @@ final class CreateDepartmentCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->commandBus->dispatch(new StoreDepartmentCommand(
-            $input->getArgument(self::DEPARTMENT_NAME_ARGUMENT),
-            (float) $input->getArgument(self::DEPARTMENT_SALARY_BONUS_ARGUMENT),
-            $input->getArgument(self::DEPARTMENT_SALARY_BONUS_TYPE_ARGUMENT)
-        ));
+        $this->commandBus->dispatch(
+            new StoreDepartmentCommand(
+                $input->getArgument(self::DEPARTMENT_NAME_ARGUMENT),
+                (float) $input->getArgument(self::DEPARTMENT_SALARY_BONUS_ARGUMENT),
+                $input->getArgument(self::DEPARTMENT_SALARY_BONUS_TYPE_ARGUMENT)
+            )
+        );
 
         return Command::SUCCESS;
     }

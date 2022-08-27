@@ -26,11 +26,9 @@ final class CreateEmployeeCommand extends Command
 
     private const EMPLOYEE_SALARY_ARGUMENT = 'salary';
 
-    public function __construct(
-        private readonly CommandBus $commandBus,
-        string $name = null
-    ) {
-        parent::__construct($name);
+    public function __construct(private readonly CommandBus $commandBus)
+    {
+        parent::__construct();
     }
 
     protected function configure(): void

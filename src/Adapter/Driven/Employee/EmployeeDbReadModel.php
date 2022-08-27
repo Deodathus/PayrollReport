@@ -11,6 +11,8 @@ use PayrollReport\Modules\Department\Application\Employee\Employees;
 
 final class EmployeeDbReadModel implements EmployeeReadModel
 {
+    private const DB_TABLE_NAME = 'employees';
+
     public function __construct(private readonly Connection $connection) {}
 
     /**
@@ -28,7 +30,7 @@ final class EmployeeDbReadModel implements EmployeeReadModel
                 'hired_at',
                 'salary'
             ])
-            ->from('employees')
+            ->from(self::DB_TABLE_NAME)
             ->fetchAllAssociative();
 
         return new Employees(

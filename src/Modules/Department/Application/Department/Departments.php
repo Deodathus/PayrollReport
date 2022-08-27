@@ -16,4 +16,9 @@ final class Departments
     {
         return $this->departments;
     }
+
+    public function count(): int
+    {
+        return count($this->departments);
+    }
 }

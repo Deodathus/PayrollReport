@@ -16,11 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand('employee:get-all', 'Returns all employees')]
 class GetAllEmployeesCommand extends Command
 {
-    public function __construct(
-        private readonly QueryBus $queryBus,
-        string $name = null
-    ) {
-        parent::__construct($name);
+    public function __construct(private readonly QueryBus $queryBus)
+    {
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -30,7 +28,7 @@ class GetAllEmployeesCommand extends Command
             new GetAllEmployeesQuery()
         );
 
-        if (count($employees->toArray()) > 0) {
+        if ($employees->count() > 0) {
             $this->displayResult($employees, $output);
         } else {
             $output->writeln('<info>No employees found</info>');

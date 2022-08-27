@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace PayrollReport\Modules\Department\Domain;
+namespace PayrollReport\Modules\Department\Domain\Employee;
+
+use PayrollReport\Modules\Department\Domain\InvalidArgumentException;
 
 final class Salary
 {

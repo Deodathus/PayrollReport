@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PayrollReport\Modules\Department\Domain\Employee;
 
-use DateTimeInterface;
+use DateTimeImmutable;
 
 final class EmployeeSnapshot
 {
@@ -12,7 +12,7 @@ final class EmployeeSnapshot
         public readonly string $departmentId,
         public readonly string $firstName,
         public readonly string $lastName,
-        public readonly DateTimeInterface $hiredAt,
+        public readonly DateTimeImmutable $hiredAt,
         public readonly int $salary
     ) {}
 }

@@ -9,7 +9,7 @@ use PayrollReport\Modules\Department\Domain\Employee\Employee;
 use PayrollReport\Modules\Department\Domain\Employee\EmployeeExperience;
 use PayrollReport\Modules\Department\Domain\Employee\EmployeeName;
 use PayrollReport\Modules\Department\Domain\Employee\EmployeeRepository;
-use PayrollReport\Modules\Department\Domain\Salary;
+use PayrollReport\Modules\Department\Domain\Employee\Salary;
 use PayrollReport\Shared\Application\Command\CommandHandler;
 use PayrollReport\Shared\Application\NotFoundException;
 

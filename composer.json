@@ -30,6 +30,7 @@
         "fakerphp/faker": "^1.20",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
+        "symfony/phpunit-bridge": "^6.1",
         "symfony/var-dumper": "6.1.*",
         "symfony/web-profiler-bundle": "6.1.*"
     },
@@ -74,6 +75,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "phpunit": [
+            "php bin/phpunit"
         ]
     },
     "conflict": {

@@ -16,4 +16,9 @@ final class Employees
     {
         return $this->employees;
     }
+
+    public function count(): int
+    {
+        return count($this->employees);
+    }
 }

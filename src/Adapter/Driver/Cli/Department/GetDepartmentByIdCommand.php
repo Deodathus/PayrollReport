@@ -19,11 +19,9 @@ final class GetDepartmentByIdCommand extends Command
 {
     private const DEPARTMENT_ID_ARGUMENT = 'department_id';
 
-    public function __construct(
-        private readonly QueryBus $queryBus,
-        string $name = null
-    ) {
-        parent::__construct($name);
+    public function __construct(private readonly QueryBus $queryBus)
+    {
+        parent::__construct();
     }
 
     protected function configure(): void
