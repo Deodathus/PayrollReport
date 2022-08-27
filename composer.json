@@ -13,7 +13,6 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
         "ramsey/uuid": "^4.4",
-        "symfony/amqp-messenger": "6.1.*",
         "symfony/console": "6.1.*",
         "symfony/dependency-injection": "6.1.*",
         "symfony/dotenv": "6.1.*",
@@ -27,7 +26,6 @@
     },
     "require-dev": {
         "beberlei/assert": "^3.3",
-        "fakerphp/faker": "^1.20",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/phpunit-bridge": "^6.1",

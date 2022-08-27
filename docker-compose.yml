@@ -29,17 +29,6 @@ services:
         depends_on:
             -   db
 
-    rabbit:
-        container_name: payroll_report-rabbit
-        image: rabbitmq:3.9.21-management-alpine
-        ports:
-            - '5672:5672'
-            - '15672:15672'
-
-    redis:
-        container_name: payroll_report-redis
-        image: redis:7.0.4-alpine
-
     nginx:
         container_name: payroll_report-nginx
         image: nginx:1.19.2-alpine
@@ -51,4 +40,3 @@ services:
         depends_on:
             -   php
             -   db
-            -   rabbit

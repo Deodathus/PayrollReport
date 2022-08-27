@@ -93,15 +93,6 @@ final class SalaryWithDepartmentBonusPolicyTest extends TestCase
         );
     }
 
-    private function getTestable(): SalaryWithDepartmentBonusPolicy
-    {
-        return new SalaryWithDepartmentBonusPolicy(
-            new PercentageSalaryBonusSpecification(),
-            new FixedAmountSalaryBonusSpecification(),
-            $this->departmentRepository
-        );
-    }
-
     public function fixedAmountTypeDataProvider(): array
     {
         return [
@@ -110,5 +101,14 @@ final class SalaryWithDepartmentBonusPolicyTest extends TestCase
             [10],
             [14]
         ];
+    }
+
+    private function getTestable(): SalaryWithDepartmentBonusPolicy
+    {
+        return new SalaryWithDepartmentBonusPolicy(
+            new PercentageSalaryBonusSpecification(),
+            new FixedAmountSalaryBonusSpecification(),
+            $this->departmentRepository
+        );
     }
 }
