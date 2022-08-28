@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PayrollReport\Tests\Unit\Domain;
+namespace PayrollReport\Tests\Unit\Domain\Employee;
 
 use DateTimeImmutable;
 use PayrollReport\Modules\Department\Domain\Department\DepartmentId;

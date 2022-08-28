@@ -5,9 +5,9 @@ namespace PayrollReport\Adapter\Driven\Employee;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use PayrollReport\Modules\Department\Application\Employee\Employee;
+use PayrollReport\Modules\Department\Application\Employee\EmployeeViewModel;
 use PayrollReport\Modules\Department\Application\Employee\EmployeeReadModel;
-use PayrollReport\Modules\Department\Application\Employee\Employees;
+use PayrollReport\Modules\Department\Application\Employee\EmployeesViewModels;
 
 final class EmployeeDbReadModel implements EmployeeReadModel
 {
@@ -18,7 +18,7 @@ final class EmployeeDbReadModel implements EmployeeReadModel
     /**
      * @throws Exception
      */
-    public function fetchAll(): Employees
+    public function fetchAll(): EmployeesViewModels
     {
         $result = $this->connection
             ->createQueryBuilder()
@@ -33,9 +33,9 @@ final class EmployeeDbReadModel implements EmployeeReadModel
             ->from(self::DB_TABLE_NAME)
             ->fetchAllAssociative();
 
-        return new Employees(
+        return new EmployeesViewModels(
             ...array_map(
-                static fn (array $row): Employee => new Employee(
+                static fn (array $row): EmployeeViewModel => new EmployeeViewModel(
                     $row['id'],
                     $row['department_id'],
                     $row['first_name'],

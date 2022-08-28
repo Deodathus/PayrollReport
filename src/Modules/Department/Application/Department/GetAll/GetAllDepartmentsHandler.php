@@ -9,7 +9,9 @@ use PayrollReport\Shared\Application\Query\QueryHandler;
 
 final class GetAllDepartmentsHandler implements QueryHandler
 {
-    public function __construct(private readonly DepartmentReadModel $departmentReadModel) {}
+    public function __construct(
+        private readonly DepartmentReadModel $departmentReadModel
+    ) {}
 
     public function __invoke(GetAllDepartmentsQuery $allDepartmentsQuery): Departments
     {

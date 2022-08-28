@@ -53,7 +53,6 @@ final class EmployeeDbRepository implements EmployeeRepository
     /**
      * @throws InvalidArgumentException
      * @throws Exception
-     * @throws \Exception
      */
     public function fetchAll(): array
     {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PayrollReport\Shared\Infrastructure\Application\Command;
+namespace PayrollReport\Shared\Infrastructure\Application\Messenger\Command;
 
 use PayrollReport\Shared\Application\Command\Command;
 use PayrollReport\Shared\Application\Command\CommandBus;

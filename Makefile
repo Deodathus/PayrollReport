@@ -12,6 +12,7 @@ down:
 
 install:
 	${DOCKER_BASH} composer install
+	${DOCKER_BASH} ${BIN_CONSOLE} d:d:c
 	${DOCKER_BASH} ${BIN_CONSOLE} d:m:m
 
 bash:

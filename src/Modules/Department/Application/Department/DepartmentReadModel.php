@@ -8,4 +8,9 @@ interface DepartmentReadModel
     public function fetchById(string $id): Department;
 
     public function fetchAll(): Departments;
+
+    /**
+     * @return string[]
+     */
+    public function fetchNames(): array;
 }

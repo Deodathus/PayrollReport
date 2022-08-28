@@ -5,5 +5,5 @@ namespace PayrollReport\Modules\Department\Application\Employee;
 
 interface EmployeeReadModel
 {
-    public function fetchAll(): Employees;
+    public function fetchAll(): EmployeesViewModels;
 }

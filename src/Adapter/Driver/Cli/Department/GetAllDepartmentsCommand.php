@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 
 #[AsCommand('department:get-all', 'Returns all departments')]
 final class GetAllDepartmentsCommand extends Command
@@ -23,10 +24,16 @@ final class GetAllDepartmentsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var Departments $departments */
-        $departments = $this->queryBus->handle(
-            new GetAllDepartmentsQuery()
-        );
+        try {
+            /** @var Departments $departments */
+            $departments = $this->queryBus->handle(
+                new GetAllDepartmentsQuery()
+            );
+        } catch (HandlerFailedException $exception) {
+            $output->writeln('<error>There was error occurred during process!</error>');
+
+            return Command::FAILURE;
+        }
 
         if ($departments->count() > 0) {
             $this->displayResult($departments, $output);

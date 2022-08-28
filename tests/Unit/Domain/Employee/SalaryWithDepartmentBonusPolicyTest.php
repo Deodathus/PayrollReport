@@ -11,7 +11,6 @@ use PayrollReport\Modules\Department\Domain\Department\DepartmentSalaryBonusType
 use PayrollReport\Modules\Department\Domain\Employee\Policy\SalaryWithDepartmentBonusPolicy;
 use PayrollReport\Modules\Department\Domain\Employee\Specification\FixedAmountSalaryBonusSpecification;
 use PayrollReport\Modules\Department\Domain\Employee\Specification\PercentageSalaryBonusSpecification;
-use PayrollReport\Tests\Unit\Domain\EmployeeFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -23,6 +22,8 @@ final class SalaryWithDepartmentBonusPolicyTest extends TestCase
 
     private const DEPARTMENT_BONUS_IN_FIXED_AMOUNT = 100000;
 
+    private const FIXED_AMOUNT_BONUS_YEARS_LIMIT = 10;
+
     private DepartmentRepository|MockObject $departmentRepository;
 
     public function setUp(): void
@@ -30,9 +31,7 @@ final class SalaryWithDepartmentBonusPolicyTest extends TestCase
         $this->departmentRepository = $this->createMock(DepartmentRepository::class);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function shouldApplyPercentageType(): void
     {
         $fiftyPercent = self::DEPARTMENT_BONUS_IN_PERCENT;
@@ -81,8 +80,8 @@ final class SalaryWithDepartmentBonusPolicyTest extends TestCase
         );
 
         $employeeWorksYears = $employee->getSnapshot()->hiredAt->diff(new DateTimeImmutable())->y;
-        if ($employeeWorksYears > 10) {
-            $employeeWorksYears = 10;
+        if ($employeeWorksYears > self::FIXED_AMOUNT_BONUS_YEARS_LIMIT) {
+            $employeeWorksYears = self::FIXED_AMOUNT_BONUS_YEARS_LIMIT;
         }
 
         $salaryWithDepartmentBonus = $this->getTestable()->apply($employee);
@@ -99,7 +98,7 @@ final class SalaryWithDepartmentBonusPolicyTest extends TestCase
             [2],
             [5],
             [10],
-            [14]
+            [14],
         ];
     }
 

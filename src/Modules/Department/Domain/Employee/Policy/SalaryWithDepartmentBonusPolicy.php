@@ -16,6 +16,8 @@ use RuntimeException;
 
 final class SalaryWithDepartmentBonusPolicy
 {
+    private const FIXED_AMOUNT_BONUS_YEARS_LIMIT = 10;
+
     public function __construct(
         private readonly PercentageSalaryBonusSpecification $percentageSalaryBonusSpecification,
         private readonly FixedAmountSalaryBonusSpecification $fixedAmountSalaryBonusSpecification,
@@ -72,8 +74,8 @@ final class SalaryWithDepartmentBonusPolicy
         DepartmentSalaryBonus $departmentSalaryBonus
     ): SalaryWithDepartmentBonus {
         $employeeWorksYears = $employeeHiredAt->diff(new DateTimeImmutable())->y;
-        if ($employeeWorksYears > 10) {
-            $employeeWorksYears = 10;
+        if ($employeeWorksYears > self::FIXED_AMOUNT_BONUS_YEARS_LIMIT) {
+            $employeeWorksYears = self::FIXED_AMOUNT_BONUS_YEARS_LIMIT;
         }
 
         $salaryWithDepartmentBonus = $departmentSalaryBonus->bonusAmount->amount * $employeeWorksYears + $baseSalary->amount;

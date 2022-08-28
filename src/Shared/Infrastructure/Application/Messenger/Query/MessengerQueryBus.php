@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PayrollReport\Shared\Infrastructure\Application\Query;
+namespace PayrollReport\Shared\Infrastructure\Application\Messenger\Query;
 
 use PayrollReport\Shared\Application\Query\Query;
 use PayrollReport\Shared\Application\Query\QueryBus;

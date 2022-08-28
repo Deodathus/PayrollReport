@@ -8,6 +8,8 @@ framework:
         default_bus: query.bus
         buses:
             query.bus: ~
-            command.bus: ~
+            command.bus:
+                middleware:
+                    - 'PayrollReport\Shared\Infrastructure\Application\Messenger\Command\Middleware\DatabaseTransactionMiddleware'
 
         routing:

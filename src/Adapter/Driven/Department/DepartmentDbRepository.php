@@ -84,19 +84,4 @@ final class DepartmentDbRepository implements DepartmentRepository
             new BonusAmount($result['salary_bonus'])
         );
     }
-
-    /**
-     * @throws Exception
-     */
-    public function fetchNames(): array
-    {
-        return $this->connection
-            ->createQueryBuilder()
-            ->select([
-                'id',
-                'name',
-            ])
-            ->from(self::DB_TABLE_NAME)
-            ->fetchAllAssociativeIndexed();
-    }
 }

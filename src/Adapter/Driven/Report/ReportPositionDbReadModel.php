@@ -5,35 +5,18 @@ namespace PayrollReport\Adapter\Driven\Report;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use PayrollReport\Modules\Report\Application\Report\FilterableColumn;
 use PayrollReport\Modules\Report\Application\Report\ReportPosition;
 use PayrollReport\Modules\Report\Application\Report\ReportPositionReadModel;
+use PayrollReport\Modules\Report\Application\Report\SortableColumn;
+use PayrollReport\Shared\Application\Query\Filter;
 use PayrollReport\Shared\Application\Query\Filters;
 use PayrollReport\Shared\Application\Query\Sort;
 
 final class ReportPositionDbReadModel implements ReportPositionReadModel
 {
-    private const SUPPORTED_FILTERS = [
-        'employee_first_name',
-        'employee_last_name',
-        'department_name'
-    ];
-
-    private const SUPPORTED_SORT_COLUMNS = [
-        'employee_first_name',
-        'employee_last_name',
-        'department_name',
-        'base_salary',
-        'salary_bonus',
-        'salary_bonus_type',
-        'total_salary',
-    ];
-
-    private const SUPPORTED_SORT_ORDERS = [
-        'ASC',
-        'DESC',
-    ];
-
     private const DB_TABLE_NAME = 'reports_positions';
 
     public function __construct(private readonly Connection $connection) {}
@@ -58,7 +41,20 @@ final class ReportPositionDbReadModel implements ReportPositionReadModel
             ->from(self::DB_TABLE_NAME);
 
         $this->applySort($queryBuilder, $sort);
-        $this->applyFilters($queryBuilder, $filters);
+
+        $filtersExpressions = [];
+        foreach ($filters->toArray() as $filter) {
+            $filtersExpressions[] = $this->applyFilter($queryBuilder, $filter);
+        }
+
+        $queryBuilder->where(
+            $queryBuilder->expr()->and(
+                $queryBuilder->expr()->eq('report_id', ':reportId'),
+                count($filtersExpressions) ? $queryBuilder->expr()->or(
+                    ...$filtersExpressions
+                ) : null
+            )
+        )->setParameter('reportId', $id);
 
         $result = $queryBuilder->fetchAllAssociative();
 
@@ -78,24 +74,37 @@ final class ReportPositionDbReadModel implements ReportPositionReadModel
 
     private function applySort(QueryBuilder $queryBuilder, ?Sort $sort = null): void
     {
-        if (
-            $sort &&
-            in_array($sort->column, self::SUPPORTED_SORT_COLUMNS) &&
-            in_array($sort->order->value, self::SUPPORTED_SORT_ORDERS)
-        ) {
+        if ($sort && $this->isColumnSortable($sort->column)) {
             $queryBuilder->addOrderBy($sort->column, $sort->order->value);
         }
     }
 
-    private function applyFilters(QueryBuilder $queryBuilder, Filters $filters): void
+    private function isColumnSortable(string $sortableColumn): bool
     {
-        foreach ($filters->toArray() as $filter) {
-            if (!in_array($filter->column, self::SUPPORTED_FILTERS)) {
-                continue;
-            }
+        return in_array(
+            $sortableColumn,
+            array_map(static fn(SortableColumn $column): string => $column->value, SortableColumn::cases()),
+            true
+        );
+    }
 
-            $queryBuilder->orWhere(sprintf('%s like :%s', $filter->column, $filter->value))
-                ->setParameter(sprintf('%s', $filter->value), "%{$filter->value}%");
+    private function applyFilter(QueryBuilder $queryBuilder, Filter $filter): CompositeExpression
+    {
+        if ($this->isColumnNotSupported($filter->column)) {
+            throw new \RuntimeException(sprintf('Filter [%s] is not supported!', $filter->column));
         }
+
+        $queryBuilder->setParameter(sprintf('%s', $filter->value), "%{$filter->value}%");
+
+        return $queryBuilder->expr()->or(sprintf('%s like :%s', $filter->column, $filter->value));
+    }
+
+    private function isColumnNotSupported(string $column): bool
+    {
+        return !in_array(
+            $column,
+            array_map(static fn(FilterableColumn $column): string => $column->value, FilterableColumn::cases()),
+            true
+        );
     }
 }

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 
 #[AsCommand('report:get-all-data', 'Returns reports data such as ID and generated timestamp')]
 final class GetReportsDataCommand extends Command
@@ -23,10 +24,16 @@ final class GetReportsDataCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var ReportsData $reportsData */
-        $reportsData = $this->queryBus->handle(
-            new GetReportsDataQuery()
-        );
+        try {
+            /** @var ReportsData $reportsData */
+            $reportsData = $this->queryBus->handle(
+                new GetReportsDataQuery()
+            );
+        } catch (HandlerFailedException $exception) {
+            $output->writeln('<error>There was error occurred during process!</error>');
+
+            return Command::FAILURE;
+        }
 
         if ($reportsData->count() > 0) {
             $this->displayResult($reportsData, $output);

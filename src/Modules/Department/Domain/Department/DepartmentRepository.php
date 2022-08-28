@@ -10,9 +10,4 @@ interface DepartmentRepository
     public function existsWithId(string $id): bool;
 
     public function fetchSalaryBonus(string $id): DepartmentSalaryBonus;
-
-    /**
-     * @return string[]
-     */
-    public function fetchNames(): array;
 }

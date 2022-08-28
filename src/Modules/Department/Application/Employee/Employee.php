@@ -8,9 +8,12 @@ final class Employee
     public function __construct(
         public readonly string $id,
         public readonly string $departmentId,
-        public readonly string $firstName,
-        public readonly string $lastName,
-        public readonly string $hiredAt,
-        public readonly float $salary
+        public readonly string $departmentName,
+        public readonly string $employeeFirstName,
+        public readonly string $employeeLastName,
+        public readonly int $baseSalary,
+        public readonly int $salaryBonus,
+        public readonly string $salaryBonusType,
+        public readonly int $totalSalary
     ) {}
 }

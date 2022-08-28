@@ -8,7 +8,6 @@ use Doctrine\DBAL\Exception;
 use PayrollReport\Modules\Report\Domain\Report;
 use PayrollReport\Modules\Report\Domain\ReportPositionRepository;
 use PayrollReport\Modules\Report\Domain\ReportRepository;
-use Throwable;
 
 final class ReportDbRepository implements ReportRepository
 {
@@ -20,38 +19,43 @@ final class ReportDbRepository implements ReportRepository
     ) {}
 
     /**
-     * @throws Throwable
+     * @throws Exception
+     */
+    public function existsById(string $id): bool
+    {
+        $result = $this->connection
+            ->createQueryBuilder()
+            ->select('count(id) as count')
+            ->from(self::DB_TABLE_NAME)
+            ->where('id = :id')
+            ->setParameter('id', $id)
+            ->fetchOne();
+
+        return $result > 0;
+    }
+
+    /**
      * @throws Exception
      */
     public function store(Report $report): void
     {
         $reportSnapshot = $report->getSnapshot();
 
-        try {
-            $this->connection->beginTransaction();
+        $this->connection
+            ->createQueryBuilder()
+            ->insert(self::DB_TABLE_NAME)
+            ->values([
+                'id' => ':id',
+                'generated_at' => ':generated_at',
+            ])
+            ->setParameters([
+                'id' => $reportSnapshot->id,
+                'generated_at' => $reportSnapshot->generatedAt->format('Y-m-d H:i:s'),
+            ])
+            ->executeStatement();
 
-            $this->connection
-                ->createQueryBuilder()
-                ->insert(self::DB_TABLE_NAME)
-                ->values([
-                    'id' => ':id',
-                    'generated_at' => ':generated_at',
-                ])
-                ->setParameters([
-                    'id' => $reportSnapshot->id,
-                    'generated_at' => $reportSnapshot->generatedAt->format('Y-m-d H:i:s'),
-                ])
-                ->executeStatement();
-
-            foreach ($reportSnapshot->reportPositions as $reportPositionSnapshot) {
-                $this->reportPositionRepository->store($reportPositionSnapshot);
-            }
-
-            $this->connection->commit();
-        } catch (Throwable $exception) {
-            $this->connection->rollBack();
-
-            throw $exception;
+        foreach ($reportSnapshot->reportPositions as $reportPositionSnapshot) {
+            $this->reportPositionRepository->store($reportPositionSnapshot);
         }
     }
 }

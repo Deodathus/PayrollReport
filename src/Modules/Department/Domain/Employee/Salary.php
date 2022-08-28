@@ -3,17 +3,15 @@ declare(strict_types=1);
 
 namespace PayrollReport\Modules\Department\Domain\Employee;
 
-use PayrollReport\Modules\Department\Domain\InvalidArgumentException;
-
 final class Salary
 {
     /**
-     * @throws InvalidArgumentException
+     * @throws SalaryException
      */
     public function __construct(public readonly int $amount)
     {
         if ($this->amount <= 0) {
-            throw InvalidArgumentException::withArgument((string) $this->amount, 'greater than 0');
+            throw SalaryException::amountShouldBeGreaterThanZero();
         }
     }
 
