@@ -11,7 +11,6 @@ use PayrollReport\Modules\Department\Domain\Employee\Salary;
 use PayrollReport\Modules\Department\Domain\Employee\SalaryWithDepartmentBonus;
 use PayrollReport\Modules\Department\Domain\Employee\Specification\FixedAmountSalaryBonusSpecification;
 use PayrollReport\Modules\Department\Domain\Employee\Specification\PercentageSalaryBonusSpecification;
-use PayrollReport\Modules\Department\Domain\InvalidArgumentException;
 use RuntimeException;
 
 final class SalaryWithDepartmentBonusPolicy
@@ -24,9 +23,6 @@ final class SalaryWithDepartmentBonusPolicy
         private readonly DepartmentRepository $departmentRepository
     ) {}
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function apply(Employee $employee): SalaryWithDepartmentBonus
     {
         $employeeSnapshot = $employee->getSnapshot();
@@ -51,9 +47,6 @@ final class SalaryWithDepartmentBonusPolicy
         throw new RuntimeException('Department salary bonus does not satisfy salary policy!');
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     private function applyForPercentageType(
         Salary $baseSalary,
         DepartmentSalaryBonus $departmentSalaryBonus

@@ -6,11 +6,11 @@ namespace PayrollReport\Adapter\Driven\Department;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use PayrollReport\Modules\Department\Domain\Department\BonusAmount;
+use PayrollReport\Modules\Department\Domain\Department\BonusAmountException;
 use PayrollReport\Modules\Department\Domain\Department\Department;
 use PayrollReport\Modules\Department\Domain\Department\DepartmentRepository;
 use PayrollReport\Modules\Department\Domain\Department\DepartmentSalaryBonus;
 use PayrollReport\Modules\Department\Domain\Department\DepartmentSalaryBonusType;
-use PayrollReport\Modules\Department\Domain\InvalidArgumentException;
 use PayrollReport\Shared\Application\NotFoundException;
 
 final class DepartmentDbRepository implements DepartmentRepository
@@ -61,9 +61,9 @@ final class DepartmentDbRepository implements DepartmentRepository
     }
 
     /**
-     * @throws InvalidArgumentException
      * @throws NotFoundException
      * @throws Exception
+     * @throws BonusAmountException
      */
     public function fetchSalaryBonus(string $id): DepartmentSalaryBonus
     {

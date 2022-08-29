@@ -95,6 +95,7 @@ final class SalaryWithDepartmentBonusPolicyTest extends TestCase
     public function fixedAmountTypeDataProvider(): array
     {
         return [
+            [0],
             [2],
             [5],
             [10],

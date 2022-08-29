@@ -24,7 +24,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 
-RUN git config --global user.email "bslexmail@gmail.com" \
-    && git config --global user.name "Bohdan Mykhalevych"
-
 ENTRYPOINT ["/bin/sh", "/usr/local/bin/entrypoint-base.sh"]

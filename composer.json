@@ -1,6 +1,6 @@
 {
     "name": "deodathus/payroll-report",
-    "description": "Companies payroll report generator",
+    "description": "Company payroll report generator",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",

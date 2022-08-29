@@ -13,7 +13,7 @@ use PayrollReport\Modules\Department\Domain\Employee\EmployeeId;
 use PayrollReport\Modules\Department\Domain\Employee\EmployeeName;
 use PayrollReport\Modules\Department\Domain\Employee\EmployeeRepository;
 use PayrollReport\Modules\Department\Domain\Employee\Salary;
-use PayrollReport\Modules\Department\Domain\InvalidArgumentException;
+use PayrollReport\Modules\Department\Domain\Employee\SalaryException;
 
 final class EmployeeDbRepository implements EmployeeRepository
 {
@@ -51,7 +51,7 @@ final class EmployeeDbRepository implements EmployeeRepository
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws SalaryException
      * @throws Exception
      */
     public function fetchAll(): array
